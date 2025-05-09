@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Logo from './Logo';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,10 +39,7 @@ const Navbar = () => {
     >
       <nav className="container mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center">
-          <h1 className="text-2xl font-bold font-heading text-kannada-red">
-            ಚಿತ್ರಕಥೆ
-            <span className="text-sm block text-kannada-blue font-body">Chithrakathe</span>
-          </h1>
+          <Logo />
         </div>
         
         {/* Desktop Menu */}
