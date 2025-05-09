@@ -63,13 +63,13 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-        // Kannada theme colors
+        // Karnataka flag-inspired colors
         kannada: {
-          red: "#9C2B27",
-          gold: "#E6B325",
+          red: "#FF2B27",    // Brighter red for Karnataka flag
+          gold: "#FFD700",   // More vibrant gold for Karnataka flag
           blue: "#1F456E",
           black: "#222222",
-          ivory: "#F5F0E6"
+          ivory: "#FFF9E6"   // Warmer ivory background
         },
 			},
 			fontFamily: {
@@ -108,11 +108,31 @@ export default {
             transform: 'translateY(0)'
           }
         },
+        'float': {
+          '0%, 100%': {
+            transform: 'translateY(0)'
+          },
+          '50%': {
+            transform: 'translateY(-10px)'
+          }
+        },
+        'wave': {
+          '0%': { transform: 'rotate(0deg)' },
+          '10%': { transform: 'rotate(14deg)' },
+          '20%': { transform: 'rotate(-8deg)' },
+          '30%': { transform: 'rotate(14deg)' },
+          '40%': { transform: 'rotate(-4deg)' },
+          '50%': { transform: 'rotate(10deg)' },
+          '60%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(0deg)' },
+        },
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in': 'fade-in 0.6s ease-out',
+        'float': 'float 6s ease-in-out infinite',
+        'wave': 'wave 2.5s infinite',
 			}
 		}
 	},

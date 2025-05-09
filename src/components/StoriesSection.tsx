@@ -1,9 +1,10 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Book, BookOpen } from "lucide-react";
+import { Book, BookOpen, Download, ChevronDown, File } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { toast } from "@/hooks/use-toast";
 
 interface Story {
   id: number;
@@ -13,6 +14,7 @@ interface Story {
   coverImage: string;
   genre: string;
   readTime: string;
+  pdfUrl?: string; // Optional PDF URL
 }
 
 const stories: Story[] = [
@@ -45,7 +47,8 @@ const stories: Story[] = [
     `,
     coverImage: "https://source.unsplash.com/photo-1466442929976-97f336a657be",
     genre: "Drama",
-    readTime: "10 min"
+    readTime: "10 min",
+    pdfUrl: "/stories/giriya-melina-mane.pdf"
   },
   {
     id: 2,
@@ -76,7 +79,8 @@ const stories: Story[] = [
     `,
     coverImage: "https://source.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
     genre: "Romance",
-    readTime: "8 min"
+    readTime: "8 min",
+    pdfUrl: "/stories/chandrana-belaku.pdf"
   },
   {
     id: 3,
@@ -117,29 +121,61 @@ const stories: Story[] = [
     `,
     coverImage: "https://source.unsplash.com/photo-1500673922987-e212871fec22",
     genre: "Folk Tale",
-    readTime: "12 min"
+    readTime: "12 min",
+    pdfUrl: "/stories/raitana-kanasu.pdf"
   }
 ];
 
 const StoriesSection = () => {
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [showAllContent, setShowAllContent] = useState(false);
 
   const handleStoryClick = (story: Story) => {
     setSelectedStory(story);
     setIsDialogOpen(true);
+    setShowAllContent(false);
+  };
+
+  const handleDownload = (story: Story) => {
+    if (story.pdfUrl) {
+      // In a real application, this would be a real download link
+      toast({
+        title: "Download Started",
+        description: `${story.title} is now downloading as PDF.`,
+        duration: 3000,
+      });
+      
+      // Simulate download (in real application, this would be a direct link)
+      const link = document.createElement('a');
+      link.href = story.pdfUrl;
+      link.download = `${story.title}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   return (
-    <section id="stories" className="py-24 bg-kannada-blue/5">
+    <section id="stories" className="py-24 bg-gradient-to-b from-kannada-blue/5 to-kannada-ivory">
       <div className="container mx-auto px-4">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-kannada-black">
-            <span className="text-kannada-red">Kannada</span> Stories
+        <div className="mb-16 text-center relative">
+          {/* Karnataka-inspired decorative element */}
+          <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 w-24 h-24 bg-kannada-gold/10 rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-kannada-gold/20 rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 bg-kannada-gold/30 rounded-full"></div>
+            </div>
+          </div>
+          
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-kannada-black inline-flex flex-col items-center">
+            <span className="text-kannada-red">ಕನ್ನಡ</span> 
+            <span>Stories</span>
           </h2>
-          <div className="h-1 w-20 bg-kannada-gold mx-auto"></div>
+          <div className="h-1 w-24 bg-kannada-gold mx-auto"></div>
           <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-            Written tales that bring Karnataka's rich traditions and modern narratives to life.
+            ಕರ್ನಾಟಕದ ಸಂಪ್ರದಾಯಗಳನ್ನು ಹೊಸ ಕಥೆಗಳ ಮೂಲಕ ಪರಿಚಯಿಸುತ್ತೇವೆ.
+            <br />
+            <span className="text-sm text-gray-500">Written tales that bring Karnataka's rich traditions and modern narratives to life.</span>
           </p>
         </div>
         
@@ -147,37 +183,48 @@ const StoriesSection = () => {
           {stories.map((story) => (
             <div 
               key={story.id} 
-              className="bg-white rounded-lg overflow-hidden shadow-md transition-transform hover:-translate-y-1 hover:shadow-xl"
+              className="bg-white rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl border border-kannada-gold/20 group"
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-56 overflow-hidden">
                 <img 
                   src={story.coverImage} 
                   alt={story.title} 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
                   <div>
-                    <span className="inline-block bg-kannada-gold text-kannada-black text-xs px-2 py-1 rounded mb-2">
+                    <span className="inline-block bg-kannada-gold text-kannada-black text-xs px-3 py-1 rounded-full mb-2 font-medium">
                       {story.genre}
                     </span>
-                    <h3 className="text-xl font-semibold text-white mb-1">{story.title}</h3>
+                    <h3 className="text-2xl font-bold text-white mb-1">{story.title}</h3>
                   </div>
                 </div>
               </div>
               
-              <div className="p-4">
-                <div className="flex justify-between items-center mb-3">
+              <div className="p-6">
+                <div className="flex justify-between items-center mb-4">
                   <span className="text-sm text-gray-500 flex items-center">
                     <Book size={16} className="mr-1" /> {story.readTime} read
                   </span>
+                  <span className="text-kannada-red text-sm font-medium">ಓದಿರಿ (Read)</span>
                 </div>
-                <p className="text-gray-600 text-sm mb-4">{story.summary}</p>
-                <Button 
-                  onClick={() => handleStoryClick(story)}
-                  className="w-full bg-kannada-blue hover:bg-kannada-blue/90 text-white"
-                >
-                  <BookOpen size={16} className="mr-2" /> Read Story
-                </Button>
+                <p className="text-gray-600 text-sm mb-6 line-clamp-3">{story.summary}</p>
+                <div className="flex gap-3">
+                  <Button 
+                    onClick={() => handleStoryClick(story)}
+                    variant="default"
+                    className="flex-1 bg-kannada-blue hover:bg-kannada-blue/90 text-white rounded-full"
+                  >
+                    <BookOpen size={16} className="mr-2" /> Read
+                  </Button>
+                  <Button 
+                    onClick={() => handleDownload(story)}
+                    variant="outline"
+                    className="border-kannada-gold text-kannada-gold hover:bg-kannada-gold/10 rounded-full"
+                  >
+                    <Download size={16} />
+                  </Button>
+                </div>
               </div>
             </div>
           ))}
@@ -185,10 +232,20 @@ const StoriesSection = () => {
       </div>
       
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-3xl max-h-[80vh] overflow-hidden">
+        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-hidden bg-kannada-ivory/95 border border-kannada-gold/30">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-heading text-kannada-red">
+            <DialogTitle className="text-2xl font-heading text-kannada-red flex items-center gap-2">
               {selectedStory?.title}
+              {selectedStory?.pdfUrl && (
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="ml-4 text-xs border-kannada-gold text-kannada-gold hover:bg-kannada-gold/10"
+                  onClick={() => selectedStory && handleDownload(selectedStory)}
+                >
+                  <File size={14} className="mr-1" /> Download PDF
+                </Button>
+              )}
             </DialogTitle>
             <DialogDescription>
               <div className="flex items-center justify-between text-sm text-gray-500 mt-1">
@@ -200,17 +257,46 @@ const StoriesSection = () => {
             </DialogDescription>
           </DialogHeader>
           
-          <ScrollArea className="max-h-[calc(80vh-120px)]">
-            <div className="space-y-4 p-1">
-              <div className="aspect-[16/9] w-full overflow-hidden rounded-md">
+          <ScrollArea className="max-h-[calc(90vh-180px)]">
+            <div className="space-y-6 p-2">
+              <div className="aspect-[16/9] w-full overflow-hidden rounded-md border border-kannada-gold/20">
                 <img 
                   src={selectedStory?.coverImage} 
                   alt={selectedStory?.title} 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="space-y-4 whitespace-pre-line text-gray-700">
+              <div className={`space-y-4 whitespace-pre-line text-gray-700 ${!showAllContent ? "line-clamp-10" : ""}`}>
                 {selectedStory?.content}
+              </div>
+              
+              {!showAllContent && (
+                <div className="pt-4 flex justify-center">
+                  <Button 
+                    variant="ghost"
+                    onClick={() => setShowAllContent(true)}
+                    className="text-kannada-blue flex items-center gap-1"
+                  >
+                    See More <ChevronDown size={16} />
+                  </Button>
+                </div>
+              )}
+              
+              <div className="pt-6 border-t border-kannada-gold/20 flex justify-between">
+                <Button
+                  variant="outline"
+                  className="border-kannada-red text-kannada-red hover:bg-kannada-red/10"
+                  onClick={() => setIsDialogOpen(false)}
+                >
+                  Close
+                </Button>
+                
+                <Button 
+                  onClick={() => selectedStory && handleDownload(selectedStory)}
+                  className="bg-kannada-gold hover:bg-kannada-gold/90 text-kannada-black"
+                >
+                  <Download size={16} className="mr-2" /> Download as PDF
+                </Button>
               </div>
             </div>
           </ScrollArea>
