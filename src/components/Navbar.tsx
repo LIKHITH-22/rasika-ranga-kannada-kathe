@@ -42,7 +42,11 @@ const Navbar = () => {
             <div className={`w-12 h-12 rounded-full bg-kannada-gold flex items-center justify-center shadow-md transition-all ${
               isScrolled ? 'scale-90' : 'scale-100'
             }`}>
-              <span className="text-kannada-black font-bold text-xl">JVR</span>
+              <img 
+                src="/lovable-uploads/e60811ce-0af4-4af3-b79c-446db884ed1f.png" 
+                alt="JVR Logo" 
+                className="w-7 h-7"
+              />
             </div>
             <h1 className="text-2xl font-bold font-heading text-kannada-red">
               ಚಿತ್ರಕಥೆ
