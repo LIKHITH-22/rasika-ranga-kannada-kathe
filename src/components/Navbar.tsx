@@ -38,10 +38,17 @@ const Navbar = () => {
     >
       <nav className="container mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center">
-          <h1 className="text-2xl font-bold font-heading text-kannada-red">
-            ಚಿತ್ರಕಥೆ
-            <span className="text-sm block text-kannada-blue font-body">Chithrakathe</span>
-          </h1>
+          <div className="flex items-center gap-3">
+            <div className={`w-12 h-12 rounded-full bg-kannada-gold flex items-center justify-center shadow-md transition-all ${
+              isScrolled ? 'scale-90' : 'scale-100'
+            }`}>
+              <span className="text-kannada-black font-bold text-xl">JVR</span>
+            </div>
+            <h1 className="text-2xl font-bold font-heading text-kannada-red">
+              ಚಿತ್ರಕಥೆ
+              <span className="text-sm block text-kannada-blue font-body">Chithrakathe</span>
+            </h1>
+          </div>
         </div>
         
         {/* Desktop Menu */}
